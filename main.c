@@ -21,6 +21,9 @@ int main() {
         // используем
         fillingMatrix(matrix, rows, cols);
 
+        checkingCorrectMatrix(matrix, rows, cols);
+        checkingCorrectMatrix(matrix2, rows, cols);
+
         transpositionMatrix(matrix, matrix2, rows, cols);
 
         printMatrix(matrix, rows, cols);
@@ -88,6 +91,29 @@ int fillingMatrix(int** matrix, int rows, int cols){
 
 
 int checkingCorrectMatrix(int** matrix, int rows, int cols){
+    if (matrix == NULL) {
+        return 1;
+    }
+
+    if (rows <= 0 || cols <= 0) {
+        return 1;
+    }
+
+    int f = 0;
+    for (int i = 0; i < rows; i++) {
+        if (matrix[i] == 0) {
+            f++;
+        }
+    }
+    if (f == rows)
+        return 1;
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            int value = matrix[i][j];
+        }
+    }
+
     return 0;
 }
 
