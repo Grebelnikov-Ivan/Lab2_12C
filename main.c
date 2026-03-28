@@ -7,7 +7,7 @@ int fillingMatrix(int** matrix, int rows, int cols);
 int checkingCorrectMatrix(int** matrix, int rows, int cols);
 int transpositionMatrix(int** matrix, int rows, int cols);
 int printMatrix(int** matrix, int rows, int cols);
-int cleanMatrix(int** matrix, int rows, int cols);
+int cleanMatrix(int** matrix, int rows);
 
 
 int main() {
@@ -19,7 +19,7 @@ int main() {
         // используем
 
         // освобождаем
-        cleanMatrix(matrix, rows, cols);
+        cleanMatrix(matrix, rows);
     }
     return 0;
 }
@@ -48,6 +48,13 @@ int** createMatrix(int rows, int cols){
 
 
 int fillingMatrix(int** matrix, int rows, int cols){
+    srand(time(NULL));
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            matrix[i][j] = rand() % 100 + 1;
+        }
+    }
     return 0;
 }
 
@@ -67,7 +74,7 @@ int printMatrix(int** matrix, int rows, int cols){
 }
 
 
-int cleanMatrix(int** matrix, int rows, int cols){
+int cleanMatrix(int** matrix, int rows){
     for (int i = 0; i < rows; i++) {
         free(matrix[i]);
     }
