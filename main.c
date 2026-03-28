@@ -2,40 +2,38 @@
 #include <stdlib.h>
 #include <time.h>
 
-char** createMatrix(int rows, int cols);
-int fillingMatrix(char** matrix);
-int checkingCorrectMatrix(char** matrix);
-int transpositionMatrix(char** matrix);
-int printMatrix(char** matrix);
-int cleanMatrix(char** matrix);
+int** createMatrix(int rows, int cols);
+int fillingMatrix(int** matrix, int rows, int cols);
+int checkingCorrectMatrix(int** matrix, int rows, int cols);
+int transpositionMatrix(int** matrix, int rows, int cols);
+int printMatrix(int** matrix, int rows, int cols);
+int cleanMatrix(int** matrix, int rows, int cols);
 
 
 int main() {
     int rows = 2, cols = 3;
-    char** matrix = NULL;
+    int** matrix = NULL;
     matrix = createMatrix(rows, cols);
 
     if (matrix != NULL) {
         // используем
 
         // освобождаем
-        cleanMatrix(matrix);
+        cleanMatrix(matrix, rows, cols);
     }
     return 0;
 }
 
 
-char** createMatrix(int rows, int cols){
-    char** matrix = (char**)calloc(rows, sizeof(char*));
+int** createMatrix(int rows, int cols){
+    int** matrix = (int**)calloc(rows, sizeof(int*));
 
     if (matrix == NULL) {
         return NULL;
     }
 
     for (int i = 0; i < rows; i++) {
-        matrix[i] = (char*)calloc(cols + 1, sizeof(char));
-        matrix[i][cols] = '\n';
-
+        matrix[i] = (int*)calloc(cols, sizeof(int));
         if (matrix[i] == NULL) {
             for (int j = 0; j < i; j++) {
                 free(matrix[j]);
@@ -44,34 +42,33 @@ char** createMatrix(int rows, int cols){
             return NULL;
         }
     }
-    matrix[rows] = NULL;
 
     return matrix;
 }
 
 
-int fillingMatrix(char** matrix){
+int fillingMatrix(int** matrix, int rows, int cols){
     return 0;
 }
 
 
-int checkingCorrectMatrix(char** matrix){
+int checkingCorrectMatrix(int** matrix, int rows, int cols){
     return 0;
 }
 
 
-int transpositionMatrix(char** matrix){
+int transpositionMatrix(int** matrix, int rows, int cols){
     return 0;
 }
 
 
-int printMatrix(char** matrix){
+int printMatrix(int** matrix, int rows, int cols){
     return 0;
 }
 
 
-int cleanMatrix(char** matrix){
-    for (int i = 0; matrix[i] != NULL; i++) {
+int cleanMatrix(int** matrix, int rows, int cols){
+    for (int i = 0; i < rows; i++) {
         free(matrix[i]);
     }
     free(matrix);
