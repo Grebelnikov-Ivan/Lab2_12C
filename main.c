@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h>
+
+#define EMPTY INT_MIN  // для пустой ячейки
 
 int** createMatrix(int rows, int cols);
 int fillingMatrix(int** matrix, int rows, int cols);
@@ -8,6 +11,7 @@ int checkingCorrectMatrix(int** matrix, int rows, int cols);
 int transpositionMatrix(int** matrix, int** matrix2, int rows, int cols);
 int printMatrix(int** matrix, int rows, int cols);
 void cleanMatrix(int** matrix, int rows);
+int isEmpty(int value);
 
 int main() {
     int rows = 3, cols = 4;
@@ -24,25 +28,22 @@ int main() {
     if (matrix2 == NULL) {
         printf("error2");
         cleanMatrix(matrix, rows);
-        matrix = NULL;
         return 1;
     }
 
-    if (fillingMatrix(matrix, rows, cols) != 0) {
-        printf("error3");
-        cleanMatrix(matrix, rows);
-        cleanMatrix(matrix2, cols);
-        matrix = NULL;
-        matrix2 = NULL;
-        return 1;
-    }
+    int test_data[] = {5, 6, 7, 8,EMPTY, EMPTY, EMPTY, EMPTY, 9, 10, 11, 12};
+    for(int i = 0, k = 0; i < rows; i++)
+        for(int j = 0; j < cols; j++) {
+            matrix[i][j] = test_data[k];
+            k++;
+        }
+
+    // fillingMatrix(matrix, rows, cols);
 
     if (checkingCorrectMatrix(matrix, rows, cols) != 0) {
         printf("error4");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
-        matrix = NULL;
-        matrix2 = NULL;
         return 1;
     }
 
@@ -50,8 +51,6 @@ int main() {
         printf("error5");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
-        matrix = NULL;
-        matrix2 = NULL;
         return 1;
     }
 
@@ -59,18 +58,13 @@ int main() {
         printf("error6");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
-        matrix = NULL;
-        matrix2 = NULL;
         return 1;
     }
 
-    // Выводим исходную матрицу
     if (printMatrix(matrix, rows, cols) != 0) {
         printf("error7");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
-        matrix = NULL;   // Обнуляем указатели после очистки
-        matrix2 = NULL;
         return 1;
     }
 
@@ -78,17 +72,17 @@ int main() {
         printf("error8");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
-        matrix = NULL;   // Обнуляем указатели после очистки
-        matrix2 = NULL;
         return 1;
     }
 
     cleanMatrix(matrix, rows);
     cleanMatrix(matrix2, cols);
-    matrix = NULL;   // Обнуляем указатели после очистки
-    matrix2 = NULL;
 
     return 0;
+}
+
+int empty(int n) {
+    return n == EMPTY;
 }
 
 int** createMatrix(int rows, int cols) {
@@ -108,6 +102,10 @@ int** createMatrix(int rows, int cols) {
             }
             free(matrix);
             return NULL;
+        }
+        // заполним пустыми
+        for (int j = 0; j < cols; j++) {
+            matrix[i][j] = EMPTY;
         }
     }
     return matrix;
@@ -131,20 +129,13 @@ int checkingCorrectMatrix(int** matrix, int rows, int cols) {
     if (matrix == NULL) {
         return 1;
     }
-
     if (rows <= 0 || cols <= 0) {
         return 2;
     }
-
-    int f = 0;
     for (int i = 0; i < rows; i++) {
-        if (matrix[i] == NULL) {
-            f++;
-        }
+        if (matrix[i] == NULL)
+            return 3;
     }
-    if (f == rows)
-        return 3;
-
     return 0;
 }
 
@@ -154,10 +145,20 @@ int transpositionMatrix(int** matrix, int** matrix2, int rows, int cols) {
 
     if (matrix == NULL || matrix2 == NULL)
         return 2;
-    
+
+    // Сначала заполняем результат пустыми значениями
+    for (int i = 0; i < cols; i++) {
+        for (int j = 0; j < rows; j++) {
+            matrix2[i][j] = EMPTY;
+        }
+    }
+
+    // Транспонируем только непустые элементы
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            matrix2[j][i] = matrix[i][j];
+            if (!empty(matrix[i][j])) {
+                matrix2[j][i] = matrix[i][j];
+            }
         }
     }
     return 0;
@@ -172,7 +173,14 @@ int printMatrix(int** matrix, int rows, int cols) {
             return 2;
 
         for (int j = 0; j < cols; j++) {
-            printf("%d\t", matrix[i][j]);
+            if (!empty(matrix[i][j])) {
+                printf("%d\t", matrix[i][j]);}
+            /*if (empty(matrix[i][j])) {
+                printf(".\t");  // для пустой
+            }
+            else {
+                printf("%d\t", matrix[i][j]);
+            }*/
         }
         printf("\n");
     }
