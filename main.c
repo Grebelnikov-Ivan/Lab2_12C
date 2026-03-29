@@ -24,6 +24,7 @@ int main() {
     if (matrix2 == NULL) {
         printf("error2");
         cleanMatrix(matrix, rows);
+        matrix = NULL;
         return 1;
     }
 
@@ -31,6 +32,8 @@ int main() {
         printf("error3");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
+        matrix = NULL;
+        matrix2 = NULL;
         return 1;
     }
 
@@ -38,6 +41,8 @@ int main() {
         printf("error4");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
+        matrix = NULL;
+        matrix2 = NULL;
         return 1;
     }
 
@@ -45,6 +50,8 @@ int main() {
         printf("error5");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
+        matrix = NULL;
+        matrix2 = NULL;
         return 1;
     }
 
@@ -52,6 +59,8 @@ int main() {
         printf("error6");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
+        matrix = NULL;
+        matrix2 = NULL;
         return 1;
     }
 
@@ -60,6 +69,8 @@ int main() {
         printf("error7");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
+        matrix = NULL;   // Обнуляем указатели после очистки
+        matrix2 = NULL;
         return 1;
     }
 
@@ -67,11 +78,15 @@ int main() {
         printf("error8");
         cleanMatrix(matrix, rows);
         cleanMatrix(matrix2, cols);
+        matrix = NULL;   // Обнуляем указатели после очистки
+        matrix2 = NULL;
         return 1;
     }
 
     cleanMatrix(matrix, rows);
     cleanMatrix(matrix2, cols);
+    matrix = NULL;   // Обнуляем указатели после очистки
+    matrix2 = NULL;
 
     return 0;
 }
@@ -139,8 +154,7 @@ int transpositionMatrix(int** matrix, int** matrix2, int rows, int cols) {
 
     if (matrix == NULL || matrix2 == NULL)
         return 2;
-
-    // транспонирование
+    
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             matrix2[j][i] = matrix[i][j];
@@ -168,11 +182,11 @@ int printMatrix(int** matrix, int rows, int cols) {
 
 void cleanMatrix(int** matrix, int rows) {
     if (matrix == NULL)
-        return ;
+        return;
 
     if (rows <= 0) {
         free(matrix);
-        return ;
+        return;
     }
 
     for (int i = 0; i < rows; i++) {
