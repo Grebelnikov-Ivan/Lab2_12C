@@ -11,7 +11,7 @@ int checkingCorrectMatrix(int** matrix, int rows, int cols);
 int transpositionMatrix(int** matrix, int** matrix2, int rows, int cols);
 int printMatrix(int** matrix, int rows, int cols);
 void cleanMatrix(int** matrix, int rows);
-int isEmpty(int value);
+int empty(int n);
 
 int main() {
     int rows = 3, cols = 4;
