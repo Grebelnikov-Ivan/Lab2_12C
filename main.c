@@ -5,16 +5,16 @@
 
 #define EMPTY INT_MIN  // для пустой ячейки
 
-int** createMatrix(int rows, int cols);
-int fillingMatrix(int** matrix, int rows, int cols);
-int checkingCorrectMatrix(int** matrix, int rows, int cols);
-int transpositionMatrix(int** matrix, int** matrix2, int rows, int cols);
-int printMatrix(int** matrix, int rows, int cols);
-void cleanMatrix(int** matrix, int rows);
+int** createMatrix(size_t rows, size_t cols);
+int fillingMatrix(int** matrix, size_t rows, size_t cols);
+int checkingCorrectMatrix(int** matrix, size_t rows, size_t cols);
+int transpositionMatrix(int** matrix, int** matrix2, size_t rows, size_t cols);
+int printMatrix(int** matrix, size_t rows, size_t cols);
+int cleanMatrix(int** matrix, size_t rows);
 int empty(int n);
 
 int main() {
-    int rows = 3, cols = 4;
+    size_t rows = 3, cols = 4;
     int** matrix = NULL;
     int** matrix2 = NULL;
 
@@ -31,14 +31,12 @@ int main() {
         return 1;
     }
 
-    int test_data[] = {5, 6, 7, 8,EMPTY, EMPTY, EMPTY, EMPTY, 9, 10, 11, 12};
-    for(int i = 0, k = 0; i < rows; i++)
-        for(int j = 0; j < cols; j++) {
+    int test_data[] = {5, 6, 7, 8, EMPTY, EMPTY, EMPTY, EMPTY, 9, 10, 11, 12};
+    for(size_t i = 0, k = 0; i < rows; i++)
+        for(size_t j = 0; j < cols; j++) {
             matrix[i][j] = test_data[k];
             k++;
         }
-
-    // fillingMatrix(matrix, rows, cols);
 
     if (checkingCorrectMatrix(matrix, rows, cols) != 0) {
         printf("error4");
@@ -85,8 +83,8 @@ int empty(int n) {
     return n == EMPTY;
 }
 
-int** createMatrix(int rows, int cols) {
-    if (rows <= 0 || cols <= 0)
+int** createMatrix(size_t rows, size_t cols) {
+    if (rows == 0 || cols == 0)
         return NULL;
 
     int** matrix = (int**)calloc(rows, sizeof(int*));
@@ -94,68 +92,65 @@ int** createMatrix(int rows, int cols) {
         return NULL;
     }
 
-    for (int i = 0; i < rows; i++) {
+    for (size_t i = 0; i < rows; i++) {
         matrix[i] = (int*)calloc(cols, sizeof(int));
         if (matrix[i] == NULL) {
-            for (int j = 0; j < i; j++) {
+            for (size_t j = 0; j < i; j++) {
                 free(matrix[j]);
             }
             free(matrix);
             return NULL;
         }
-        // заполним пустыми
-        for (int j = 0; j < cols; j++) {
+        for (size_t j = 0; j < cols; j++) {
             matrix[i][j] = EMPTY;
         }
     }
     return matrix;
 }
 
-int fillingMatrix(int** matrix, int rows, int cols) {
-    if (matrix == NULL || rows <= 0 || cols <= 0)
+int fillingMatrix(int** matrix, size_t rows, size_t cols) {
+    if (matrix == NULL || rows == 0 || cols == 0)
         return 1;
 
     srand(time(NULL));
 
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < cols; j++) {
             matrix[i][j] = rand() % 100 + 1;
         }
     }
     return 0;
 }
 
-int checkingCorrectMatrix(int** matrix, int rows, int cols) {
+int checkingCorrectMatrix(int** matrix, size_t rows, size_t cols) {
     if (matrix == NULL) {
         return 1;
     }
-    if (rows <= 0 || cols <= 0) {
+    if (rows == 0 || cols == 0) {
         return 2;
     }
-    for (int i = 0; i < rows; i++) {
+    for (size_t i = 0; i < rows; i++) {
         if (matrix[i] == NULL)
             return 3;
     }
     return 0;
 }
 
-int transpositionMatrix(int** matrix, int** matrix2, int rows, int cols) {
-    if (rows <= 0 || cols <= 0)
+int transpositionMatrix(int** matrix, int** matrix2, size_t rows, size_t cols) {
+    if (rows == 0 || cols == 0)
         return 1;
 
     if (matrix == NULL || matrix2 == NULL)
         return 2;
 
-    // Сначала заполняем результат пустыми значениями
-    for (int i = 0; i < cols; i++) {
-        for (int j = 0; j < rows; j++) {
+    for (size_t i = 0; i < cols; i++) {
+        for (size_t j = 0; j < rows; j++) {
             matrix2[i][j] = EMPTY;
         }
     }
 
-    // Транспонируем только непустые элементы
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < cols; j++) {
             if (!empty(matrix[i][j])) {
                 matrix2[j][i] = matrix[i][j];
             }
@@ -164,23 +159,18 @@ int transpositionMatrix(int** matrix, int** matrix2, int rows, int cols) {
     return 0;
 }
 
-int printMatrix(int** matrix, int rows, int cols) {
-    if (matrix == NULL || rows <= 0 || cols <= 0)
+int printMatrix(int** matrix, size_t rows, size_t cols) {
+    if (matrix == NULL || rows == 0 || cols == 0)
         return 1;
 
-    for (int i = 0; i < rows; i++) {
+    for (size_t i = 0; i < rows; i++) {
         if (matrix[i] == NULL)
             return 2;
 
-        for (int j = 0; j < cols; j++) {
+        for (size_t j = 0; j < cols; j++) {
             if (!empty(matrix[i][j])) {
-                printf("%d\t", matrix[i][j]);}
-            /*if (empty(matrix[i][j])) {
-                printf(".\t");  // для пустой
-            }
-            else {
                 printf("%d\t", matrix[i][j]);
-            }*/
+            }
         }
         printf("\n");
     }
@@ -188,20 +178,21 @@ int printMatrix(int** matrix, int rows, int cols) {
     return 0;
 }
 
-void cleanMatrix(int** matrix, int rows) {
+int cleanMatrix(int** matrix, size_t rows) {
     if (matrix == NULL)
-        return;
+        return 0;
 
-    if (rows <= 0) {
+    if (rows == 0) {
         free(matrix);
-        return;
+        return 1;
     }
 
-    for (int i = 0; i < rows; i++) {
+    for (size_t i = 0; i < rows; i++) {
         if (matrix[i] != NULL) {
             free(matrix[i]);
         }
     }
 
     free(matrix);
+    return 0;
 }
