@@ -334,10 +334,17 @@ int** transpositionMatrix(int** matrix, size_t rows, size_t cols) {
         }
     }
 
-    // Создаём транспонированную матрицу (размером cols x rows)
+    // Создаём транспонированную матриц
     int** result = createMatrix(cols, rows);
     if (result == NULL) {
         return NULL;
+    }
+
+    for (size_t i = 0; i < cols; i++) {
+        if (result[i] == NULL) {
+            cleanMatrix(result, cols);  // освобождаем уже выделенную память
+            return NULL;
+        }
     }
 
     // Транспонируем только непустые элементы
