@@ -8,7 +8,6 @@
 
 int** createMatrix(size_t rows, size_t cols);
 int fillingMatrix(int** matrix, size_t rows, size_t cols, int min_g, int max_g);
-int checkingCorrectMatrix(int** matrix, size_t rows, size_t cols);
 int** transpositionMatrix(int** matrix, size_t rows, size_t cols);
 int printMatrix(int** matrix, size_t rows, size_t cols);
 int cleanMatrix(int** matrix, size_t rows);
@@ -36,30 +35,33 @@ int main(){
     if (fillingMatrix(matrix, rows, cols, min_g, max_g) != 0) {
         printf("error10");
         cleanMatrix(matrix, rows);
+        matrix = NULL;
+        matrix2 = NULL;
         return 1;
     }
 
-    if (checkingCorrectMatrix(matrix, rows, cols) != 0) {
-        printf("error4");
-        cleanMatrix(matrix, rows);
-        return 1;
-    }
 
     if (printMatrix(matrix, rows, cols) != 0) {
         printf("error7");
         cleanMatrix(matrix, rows);
+        matrix = NULL;
+        matrix2 = NULL;
         return 1;
     }
 
     matrix2 = transpositionMatrix(matrix, rows, cols);
     if (matrix2 == NULL) {
         printf("error6");
+        matrix = NULL;
+        matrix2 = NULL;
         return 1;
     }
 
     if (printMatrix(matrix2, cols, rows) != 0) {
         printf("error8");
         cleanMatrix(matrix2, cols);
+        matrix = NULL;
+        matrix2 = NULL;
         return 1;
     }
 
@@ -118,19 +120,6 @@ int fillingMatrix(int** matrix, size_t rows, size_t cols, int min_g, int max_g){
     return 0;
 }
 
-int checkingCorrectMatrix(int** matrix, size_t rows, size_t cols) {
-    if (matrix == NULL) {
-        return 1;
-    }
-    if (rows == 0 || cols == 0) {
-        return 2;
-    }
-    for (size_t i = 0; i < rows; i++) {
-        if (matrix[i] == NULL)
-            return 3;
-    }
-    return 0;
-}
 
 int** transpositionMatrix(int** matrix, size_t rows, size_t cols) {
     if (matrix == NULL || rows == 0 || cols == 0) {
