@@ -298,11 +298,11 @@ int** multiplyMatrixs(int** matrix11, size_t rows1, size_t cols1, int** matrix22
                     long long mul = (long long)matrix11[i][k] * (long long)matrix22[k][j];
 
                     // проверка переполнения при сложении
-                    if (sum > 0 && mul > 0 && sum > LLONG_MAX - mul) {
+                    if (mul > 0 && sum > LLONG_MAX - mul) {
                         cleanMatrix(result, rows1);
                         return NULL;
                     }
-                    if (sum < 0 && mul < 0 && sum < LLONG_MIN - mul) {
+                    if (mul < 0 && sum < LLONG_MIN - mul) {
                         cleanMatrix(result, rows1);
                         return NULL;
                     }
