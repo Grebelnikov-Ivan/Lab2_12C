@@ -82,6 +82,7 @@ int main(){
 
     int** matrix11 = NULL;
     int** matrix22 = NULL;
+    // количество столбцов первой матрицы должно равняться количеству строк второй
     // первая матрица 2x3
     size_t rows1 = 2, cols1 = 3;
     matrix11 = createMatrix(rows1, cols1);
@@ -90,15 +91,8 @@ int main(){
         return 1;
     }
 
-    int test_data_A[] = {1, 2, 3, 4, 5, 6};
-    for(size_t i = 0, k = 0; i < rows1; i++)
-        for(size_t j = 0; j < cols1; j++) {
-            matrix11[i][j] = test_data_A[k];
-            k++;
-        }
-
-    // вторая матрица 3x2
-    size_t rows2 = 3, cols2 = 2;
+    // вторая матрица 3x4
+    size_t rows2 = 3, cols2 = 4;
     matrix22 = createMatrix(rows2, cols2);
     if (matrix22 == NULL) {
         cleanMatrix(matrix11, rows1);
@@ -106,7 +100,69 @@ int main(){
         return 1;
     }
 
-    int test_data_B[] = {7, 8, 9, 10, 11, 12};
+    int test_data_A[] = {1, 2, 3, 4, 5, 6};
+    int test_data_B[] = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18};
+    // {{74, 80, 86, 92}, {173, 188, 203, 218}}
+
+    // int test_data_A[] = {1, EMPTY, 3, EMPTY, 5, 6};
+    // int test_data_B[] = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18};
+    //{{52, 56, 60, 64}, {145, 156, 167, 178}}
+
+    // int test_data_A[] = {1, 2, 3, 4, 5, 6};
+    // int test_data_B[] = {7, EMPTY, 9, 10, 11, 12, EMPTY, 14, 15, 16, 17, EMPTY};
+    // {{74, 72, 60, 38}, {173, 156, 138, 110}}
+
+    // int test_data_A[] = {1, EMPTY, 3, 4, 5, EMPTY};
+    // int test_data_B[] = {7, 8, EMPTY, 10, EMPTY, 12, 13, 14, 15, EMPTY, 17, 18};
+    // {{52, 50, 51, 10}, {28, 92, 65, 40}}
+
+    // int test_data_A[] = {1, EMPTY, EMPTY, EMPTY, EMPTY, 6};
+    // int test_data_B[] = {7, EMPTY, EMPTY, 10, EMPTY, 12, EMPTY, EMPTY, 15, EMPTY, 17, EMPTY};
+    //{{7, EMPTY, EMPTY, 10}, {90, EMPTY, 102, EMPTY}}
+
+    // int test_data_A[] = {-1, -2, -3, -4, -5, -6};
+    // int test_data_B[] = {-7, -8, -9, -10, -11, -12, -13, -14, -15, -16, -17, -18};
+    // {{74, 80, 86, 92}, {173, 188, 203, 218}}
+
+    // int test_data_A[] = {-1, 2, -3, 4, -5, 6};
+    // int test_data_B[] = {7, -8, 9, -10, 11, -12, 13, -14, 15, -16, 17, -18};
+    // {{-30, 26, -34, 32}, {63, -56, 73, -68}}
+
+    // int test_data_A[] = {0, 0, 0, 0, 0, 0};
+    // int test_data_B[] = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18};
+    // // {{0, 0, 0, 0}, {0, 0, 0, 0}}
+
+    // int test_data_A[] = {INT_MAX, INT_MIN + 1, 1, 1, 1, 1};
+    // int test_data_B[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    // {{1, 1, 1, 1}, {3, 3, 3, 3}}
+
+    // int test_data_A[] = {1, 2, 3, EMPTY, EMPTY, EMPTY};
+    // int test_data_B[] = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18};
+    // {{74, 80, 86, 92}, {...}}
+
+    // int test_data_A[] = {10000, 20000, 30000, 40000, 50000, 60000};
+    // int test_data_B[] = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18};
+    //{{740000, 800000, 860000, 920000}, {1730000, 1880000, 2030000, 2180000}}
+
+
+    // int test_data_A[] = {INT_MAX, INT_MAX, INT_MAX, 0, 0, 0};
+    // int test_data_B[] = {INT_MAX, 0, 0, 0, INT_MAX, 0, 0, 0, INT_MAX, 0, 0, 0};
+    // ...err
+
+    // int test_data_A[] = {INT_MAX, INT_MAX, INT_MAX, 0, 0, 0};
+    // int test_data_B[] = {1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0};
+    // ...err
+
+    // int test_data_A[] = {2000000000, 2000000000, 2000000000, 0, 0, 0};
+    // int test_data_B[] = {2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0};
+    //...err
+
+
+    for(size_t i = 0, k = 0; i < rows1; i++)
+        for(size_t j = 0; j < cols1; j++) {
+            matrix11[i][j] = test_data_A[k];
+            k++;
+        }
     for(size_t i = 0, k = 0; i < rows2; i++)
         for(size_t j = 0; j < cols2; j++) {
             matrix22[i][j] = test_data_B[k];
