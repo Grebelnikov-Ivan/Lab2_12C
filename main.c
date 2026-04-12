@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -25,50 +24,59 @@ int main(){
         return 1;
     }
 
-    /*int test_data[] = {5, 6, 7, 8, EMPTY, EMPTY, EMPTY, EMPTY, 9, 10, 11, 12};
+    int test_data[] = {13, 27, -5, 42, -18, 99, 0, -77, 56, 33, -91, 88};
+
+    // int test_data[] = {53, 32, 1, 12, EMPTY, EMPTY, EMPTY, EMPTY, 65, 34, -11, 0};
+
+    // int test_data[] = {1, 2, 3, 4, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+
+    // int test_data[] = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, 9, 10, 11, 12};
+
+    // int test_data[] = {1, EMPTY, EMPTY, 4, 5, EMPTY, EMPTY, 8, 9, EMPTY, EMPTY, 12};
+
+    // int test_data[] = {INT_MAX, INT_MIN + 1, 0, -1, EMPTY, EMPTY, EMPTY, EMPTY, 100, -100, 50, -50};
+
+    // int test_data[] = {42, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+
+    // int test_data[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    // int test_data[] = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+
+
     for(size_t i = 0, k = 0; i < rows; i++)
         for(size_t j = 0; j < cols; j++) {
             matrix[i][j] = test_data[k];
             k++;
-        }*/
-    int min_g = -100;
+        }
+    /*int min_g = -100;
     int max_g = 100;
     if (fillingMatrix(matrix, rows, cols, min_g, max_g) != 0) {
         printf("error10");
         cleanMatrix(matrix, rows);
-        matrix = NULL;
-        matrix2 = NULL;
         return 1;
-    }
+    }*/
 
 
     if (printMatrix(matrix, rows, cols) != 0) {
         printf("error7");
         cleanMatrix(matrix, rows);
-        matrix = NULL;
-        matrix2 = NULL;
         return 1;
     }
 
     matrix2 = transpositionMatrix(matrix, rows, cols);
     if (matrix2 == NULL) {
         printf("error6");
-        matrix = NULL;
         return 1;
     }
 
     if (printMatrix(matrix2, cols, rows) != 0) {
         printf("error8");
         cleanMatrix(matrix2, cols);
-        matrix = NULL;
-        matrix2 = NULL;
         return 1;
     }
 
     cleanMatrix(matrix2, cols);
 
-    matrix = NULL;
-    matrix2 = NULL;
 
     printf("____________________________________\n");
 
@@ -95,7 +103,6 @@ int main(){
     if (matrix22 == NULL) {
         cleanMatrix(matrix11, rows1);
         cleanMatrix(matrix22, rows2);
-        matrix11 = NULL;
         return 1;
     }
 
@@ -123,10 +130,6 @@ int main(){
 
     cleanMatrix(matrix11, rows1);
     cleanMatrix(matrix22, rows2);
-
-    matrix11 = NULL;
-    matrix22 = NULL;
-    result = NULL;
 
     return 0;
 }
@@ -243,7 +246,7 @@ int printMatrix(int** matrix, size_t rows, size_t cols) {
 
 int cleanMatrix(int** matrix, size_t rows) {
     if (matrix == NULL || rows == 0)
-        return 0;
+        return 1;
 
     for (size_t i = 0; i < rows; i++) {
         if (matrix[i] != NULL) {
@@ -253,6 +256,7 @@ int cleanMatrix(int** matrix, size_t rows) {
     }
 
     free(matrix);
+    matrix = NULL;
     return 0;
 }
 
