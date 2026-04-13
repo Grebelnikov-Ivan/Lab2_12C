@@ -350,9 +350,10 @@ int** multiplyMatrixs(int** matrix11, size_t rows1, size_t cols1, int** matrix22
     for (size_t i = 0; i < rows1; i++) {
         for (size_t j = 0; j < cols2; j++) {
             long long sum = 0;
-            int f_no_empty = 0;
+            int f_no_empty = 0; // флаг
 
-            for (size_t k = 0; k < cols1; k++) {  // проверяем что оба элемента не пустые
+            for (size_t k = 0; k < cols1; k++) {
+                // проверяем что оба элемента не пустые
                 if (!empty(matrix11[i][k]) && !empty(matrix22[k][j])) {
 
                     long long mul = (long long)matrix11[i][k] * (long long)matrix22[k][j];
