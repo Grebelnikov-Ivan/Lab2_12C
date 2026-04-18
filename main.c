@@ -24,7 +24,7 @@ int main(){
         return 1;
     }
 
-    int test_data[] = {13, 27, -5, 42, -18, 99, 0, -77, 56, 33, -91, 88};
+    int test_data[] = {13, 27, -5, 42, -18, 99, 0, -77, 56, 33, -91};
 
     // int test_data[] = {53, 32, 1, 12, EMPTY, EMPTY, EMPTY, EMPTY, 65, 34, -11, 0};
 
@@ -42,17 +42,23 @@ int main(){
 
     // int test_data[] = {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
 
-
-    for(size_t i = 0, k = 0; i < rows; i++)
-        for(size_t j = 0; j < cols; j++) {
-            matrix[i][j] = test_data[k];
+    size_t data_size = sizeof(test_data) / sizeof(test_data[0]);
+    for(size_t i = 0, k = 0; i < rows; i++) {
+        for (size_t j = 0; j < cols; j++) {
+            if (k < data_size) {
+                matrix[i][j] = test_data[k];
+            } else {
+                matrix[i][j] = EMPTY;  // недостающие элементы = empty
+            }
             k++;
         }
+    }
     /*int min_g = -100;
     int max_g = 100;
     if (fillingMatrix(matrix, rows, cols, min_g, max_g) != 0) {
         printf("error10");
         cleanMatrix(matrix, rows);
+        matrix = NULL;
         return 1;
     }*/
 
@@ -60,6 +66,7 @@ int main(){
     if (printMatrix(matrix, rows, cols) != 0) {
         printf("error7");
         cleanMatrix(matrix, rows);
+        matrix = NULL;
         return 1;
     }
 
@@ -72,10 +79,12 @@ int main(){
     if (printMatrix(matrix2, cols, rows) != 0) {
         printf("error8");
         cleanMatrix(matrix2, cols);
+        matrix2 = NULL;
         return 1;
     }
 
     cleanMatrix(matrix2, cols);
+    matrix2 = NULL;
 
 
     printf("____________________________________\n");
@@ -88,6 +97,7 @@ int main(){
     matrix11 = createMatrix(rows1, cols1);
     if (matrix11 == NULL) {
         cleanMatrix(matrix11, rows1);
+        matrix11 = NULL;
         return 1;
     }
 
@@ -96,7 +106,9 @@ int main(){
     matrix22 = createMatrix(rows2, cols2);
     if (matrix22 == NULL) {
         cleanMatrix(matrix11, rows1);
+        matrix11 = NULL;
         cleanMatrix(matrix22, rows2);
+        matrix22 = NULL;
         return 1;
     }
 
@@ -177,6 +189,7 @@ int main(){
     if (result != NULL) {
         printMatrix(result, rows1, cols2);
         cleanMatrix(result, rows1);
+        result = NULL;
 
     }
     else {
@@ -185,7 +198,9 @@ int main(){
     }
 
     cleanMatrix(matrix11, rows1);
+    matrix11 = NULL;
     cleanMatrix(matrix22, rows2);
+    matrix22 = NULL;
 
     return 0;
 }
@@ -247,6 +262,7 @@ int** transpositionMatrix(int** matrix, size_t rows, size_t cols) {
     for ( size_t i = 0; i < rows; i++) {
         if (matrix[i] == NULL) {
             cleanMatrix(matrix, rows);
+            matrix = NULL;
             return NULL;
         }
     }
@@ -255,6 +271,7 @@ int** transpositionMatrix(int** matrix, size_t rows, size_t cols) {
     result = createMatrix(cols, rows);
     if (result == NULL) {
         cleanMatrix(matrix, rows);
+        matrix = NULL;
         return NULL;
     }
 
@@ -262,7 +279,9 @@ int** transpositionMatrix(int** matrix, size_t rows, size_t cols) {
     for (size_t i = 0; i < cols; i++) {
         if (result[i] == NULL) {
             cleanMatrix(result, cols);
+            result = NULL;
             cleanMatrix(matrix, rows);
+            matrix = NULL;
             return NULL;
         }
     }
@@ -277,6 +296,7 @@ int** transpositionMatrix(int** matrix, size_t rows, size_t cols) {
     }
 
     cleanMatrix(matrix, rows);
+    matrix = NULL;
 
     return result;
 }
@@ -312,9 +332,26 @@ int cleanMatrix(int** matrix, size_t rows) {
     }
 
     free(matrix);
-    matrix = NULL;
     return 0;
 }
+
+
+int check_overflow(long long sum, long long mul) {
+    if (mul > 0 && sum > LLONG_MAX - mul)
+        return 1;
+    if (mul < 0 && sum < LLONG_MIN - mul)
+        return 1;
+    return 0;
+}
+
+/*int check_overflow(long long sum, long long mul) {
+    if (mul > 0 && sum > LLONG_MAX - mul)
+        return 1;
+    if (mul < 0 && sum < LLONG_MIN - mul)
+        return 1;
+    return 0;
+}*/
+
 
 int** multiplyMatrixs(int** matrix11, size_t rows1, size_t cols1, int** matrix22, size_t rows2, size_t cols2) {
     if (matrix11 == NULL || matrix22 == NULL) {
@@ -359,14 +396,12 @@ int** multiplyMatrixs(int** matrix11, size_t rows1, size_t cols1, int** matrix22
                     long long mul = (long long)matrix11[i][k] * (long long)matrix22[k][j];
 
                     // проверка переполнения при сложении
-                    if (mul > 0 && sum > LLONG_MAX - mul) {
-                        cleanMatrix(result, rows1);
+                    if (mul > 0 && sum > LLONG_MAX - mul)
                         return NULL;
-                    }
-                    if (mul < 0 && sum < LLONG_MIN - mul) {
-                        cleanMatrix(result, rows1);
+                    if (mul < 0 && sum < LLONG_MIN - mul)
                         return NULL;
-                    }
+                    /*if (check_overflow(sum, mul) != 0)
+                        return NULL;*/
 
                     sum += mul;
                     f_no_empty = 1;
@@ -378,6 +413,7 @@ int** multiplyMatrixs(int** matrix11, size_t rows1, size_t cols1, int** matrix22
                 // можно ли в int
                 if (sum > INT_MAX || sum < INT_MIN) {
                     cleanMatrix(result, rows1);
+                    result = NULL;
                     return NULL;
                 }
                 result[i][j] = (int)sum;
