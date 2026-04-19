@@ -70,6 +70,9 @@ int main(){
         return 1;
     }
 
+    // free(matrix[1]);      // освобождаем вторую строку
+    // matrix[1] = NULL;
+    
     matrix2 = transpositionMatrix(matrix, rows, cols);
     if (matrix2 == NULL) {
         printf("error6");
@@ -238,6 +241,15 @@ int fillingMatrix(int** matrix, size_t rows, size_t cols, int min_g, int max_g){
     if (matrix == NULL || rows == 0 || cols == 0)
         return 1;
 
+    // проверка, что все строки матрицы существуют
+    for ( size_t i = 0; i < rows; i++) {
+        if (matrix[i] == NULL) {
+            cleanMatrix(matrix, rows);
+            matrix = NULL;
+            return 1;
+        }
+    }
+
     if (min_g > max_g) {
         return 2;
     }
@@ -305,6 +317,7 @@ int printMatrix(int** matrix, size_t rows, size_t cols) {
     if (matrix == NULL || rows == 0 || cols == 0)
         return 1;
 
+
     for (size_t i = 0; i < rows; i++) {
         if (matrix[i] == NULL)
             return 2;
@@ -335,14 +348,6 @@ int cleanMatrix(int** matrix, size_t rows) {
     return 0;
 }
 
-
-int check_overflow(long long sum, long long mul) {
-    if (mul > 0 && sum > LLONG_MAX - mul)
-        return 1;
-    if (mul < 0 && sum < LLONG_MIN - mul)
-        return 1;
-    return 0;
-}
 
 /*int check_overflow(long long sum, long long mul) {
     if (mul > 0 && sum > LLONG_MAX - mul)
