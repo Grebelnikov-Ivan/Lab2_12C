@@ -72,7 +72,7 @@ int main(){
 
     // free(matrix[1]);      // освобождаем вторую строку
     // matrix[1] = NULL;
-    
+
     matrix2 = transpositionMatrix(matrix, rows, cols);
     if (matrix2 == NULL) {
         printf("error6");
