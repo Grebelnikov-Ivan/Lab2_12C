@@ -107,6 +107,18 @@ int main() {
     size_t rows1 = 2, cols1 = 3, rows2 = 3, cols2 = 4;
     int A1[] = {1, 2, 3, 4, 5, 6};
     int B1[] = {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18};
+    
+    size_t data1 = sizeof(A1) / sizeof(A1[0]);
+    size_t data2 = sizeof(B1) / sizeof(B1[0]);
+
+    if (data1 != rows1 * cols1) {
+        printf("Error: matrix X size ");
+        return 0;
+    }
+    if (data2 != rows2 * cols2) {
+        printf("Error: matrix Y size ");
+        return 0;
+    }
 
     if (rows1 > 0 && cols1 > 0 && rows2 > 0 && cols2 > 0 && cols1 == rows2) {
         int** X = createMatrix(rows1, cols1);
